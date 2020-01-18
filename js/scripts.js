@@ -1,0 +1,1 @@
+document.getElementById("submit").addEventListener("click", () => alert("The form has been submitted"));;
