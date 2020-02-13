@@ -7,7 +7,8 @@ public class Server {
 
     public static void main(String[] args) {
 
-        Address sample = new Address("4600+Silver+Hill+Rd%2C+Suitland%2C+MD+20746");
+//        Address sample = new Address("4600+Silver+Hill+Rd%2C+Suitland%2C+MD+20746");
+        Address sample = new Address("4600+Silver+Hill+Rd", "Suitland", "MD", "20746");
         GeocodeRequest gr = new GeocodeRequest(sample);
         boolean status = false;
         try {
