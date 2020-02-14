@@ -83,19 +83,22 @@
                     <label for="inputCountry">Country</label>
                     <select id="inputCountry" class="form-control">
                         <option selected>Choose...</option>
-                        <option>...</option>
+                        <option>United States</option>
                     </select>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             <button type="button" class="btn btn-primary">Verify</button>
         </form>
+        <div id="result" style="margin-top:1em"><p>Geocoded coordinates: -84.38044,33.969402</p></div>
 
         <script>
             // Example starter JavaScript for disabling form submissions if there are invalid fields
             (function () {
                 'use strict';
                 window.addEventListener('load', function () {
+                    // hide results tab
+                    document.getElementById('result').style.display = 'none';
                     // Fetch all the forms we want to apply custom Bootstrap validation styles to
                     var forms = document.getElementsByClassName('needs-validation');
                     // Loop over them and prevent submission
@@ -106,6 +109,8 @@
                                 event.stopPropagation();
                             }
                             form.classList.add('was-validated');
+                            let resultDiv = document.getElementById('result');
+                            resultDiv.style.display = 'block';
                         }, false);
                     });
                 }, false);
