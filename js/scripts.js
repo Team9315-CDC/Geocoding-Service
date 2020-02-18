@@ -18,6 +18,25 @@ document.getElementById("batchImportLink").addEventListener("click", () => {
     document.getElementById("batchForm").style.display = "block"
 });
 
+document.getElementById("submit").addEventListener("click", () => {
+    // fetch results from geocoder
+    fetch('https://geocoding.geo.census.gov/geocoder/geographies/address?street=4600+Silver+Hill+Rd&city=Suitland&state=MD&benchmark=Public_AR_Census2010&vintage=Census2010_Census2010&layers=14&format=json')
+        .then((response) => {
+            return response.json();
+        })
+        .then((myJson) => {
+            console.log(myJson);
+        });
+
+    // TODO: replace with results from geocoder
+    let confirmation = "The address has been successfully validated and stored into the database!"
+
+
+    console.log($('#modal').find(".modal-body"))
+    $('#modal').find(".modal-body").text(confirmation)
+    $('#modal').modal('show');
+});
+
 (function () {
     'use strict';
     window.addEventListener('load', function () {
