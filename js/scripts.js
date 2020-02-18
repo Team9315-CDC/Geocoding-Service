@@ -21,8 +21,18 @@ document.getElementById("batchImportLink").addEventListener("click", () => {
 document.getElementById("submit").addEventListener("click", () => {
     // fetch results from geocoder
     let jsonResponse;
-
-    fetch('https://geocoding.geo.census.gov/geocoder/locations/address?street=4600+Silver+Hill+Rd&city=Suitland&state=MD&zip=20746&benchmark=Public_AR_Census2010&format=json')
+    console.log(document.getElementById('inputState').value)
+    let url = new URL('https://geocoding.geo.census.gov/geocoder/locations/address?'),
+        addressparams = {
+            street: document.getElementById("inputAddress1").value,
+            city: document.getElementById("inputCity").value,
+            state: document.getElementById('inputState').value,
+            zip: document.getElementById('inputZip').value,
+            benchmark: 'Public_AR_Census2010',
+            'format': 'JSON'
+        }
+    Object.keys(addressparams).forEach(key => url.searchParams.append(key, addressparams[key]))
+    fetch(url)
         .then((response) => {
             return response.json();
         })
@@ -32,14 +42,15 @@ document.getElementById("submit").addEventListener("click", () => {
             //will need to do some checks here: 
             x = myJson.result.addressMatches[0].coordinates.x
             y = myJson.result.addressMatches[0].coordinates.y
-            let confirmation = "The address coordinates of (" + x.toString() + ", " + y.toString() + ") have been geocoded."
-            console.log(confirmation.toString())
-            console.log($('#modal').find(".modal-body"))
+            let confirmation = "The address coordinates of (" + x.toString() + ", " + y.toString() + ") has been geocoded."
             $('#modal').find(".modal-body").text(confirmation)
             $('#modal').modal('show');
         })
         .catch(err => {
             console.log(err);
+            let confirmation = "Error please fix"
+            $('#modal').find(".modal-body").text(confirmation)
+            $('#modal').modal('show');
         });
 
     // TODO: replace with results from geocoder
@@ -70,215 +81,247 @@ document.getElementById("submit").addEventListener("click", () => {
 
 let stateOptionsList = document.getElementById('inputState').options;
 let stateOptions = [{
-        text: 'AL',
-        value: 'AL'
+        "name": "Alabama",
+        "abbreviation": "AL"
     },
     {
-        text: 'AK',
-        value: 'AK'
+        "name": "Alaska",
+        "abbreviation": "AK"
     },
     {
-        text: 'AZ',
-        value: 'AZ'
+        "name": "American Samoa",
+        "abbreviation": "AS"
     },
     {
-        text: 'AZ',
-        value: 'AZ'
+        "name": "Arizona",
+        "abbreviation": "AZ"
     },
     {
-        text: 'AR',
-        value: 'AR'
+        "name": "Arkansas",
+        "abbreviation": "AR"
     },
     {
-        text: 'CA',
-        value: 'CA'
+        "name": "California",
+        "abbreviation": "CA"
     },
     {
-        text: 'CO',
-        value: 'CO'
+        "name": "Colorado",
+        "abbreviation": "CO"
     },
     {
-        text: 'CT',
-        value: 'CT'
+        "name": "Connecticut",
+        "abbreviation": "CT"
     },
     {
-        text: 'DE',
-        value: 'DE'
+        "name": "Delaware",
+        "abbreviation": "DE"
     },
     {
-        text: 'FL',
-        value: 'FL'
+        "name": "District Of Columbia",
+        "abbreviation": "DC"
     },
     {
-        text: 'GA',
-        value: 'GA'
+        "name": "Federated States Of Micronesia",
+        "abbreviation": "FM"
     },
     {
-        text: 'HI',
-        value: 'HI'
+        "name": "Florida",
+        "abbreviation": "FL"
     },
     {
-        text: 'ID',
-        value: 'ID'
+        "name": "Georgia",
+        "abbreviation": "GA"
     },
     {
-        text: 'IL',
-        value: 'IL'
+        "name": "Guam",
+        "abbreviation": "GU"
     },
     {
-        text: 'IN',
-        value: 'IN'
+        "name": "Hawaii",
+        "abbreviation": "HI"
     },
     {
-        text: 'IA',
-        value: 'IA'
+        "name": "Idaho",
+        "abbreviation": "ID"
     },
     {
-        text: 'KS',
-        value: 'KS'
+        "name": "Illinois",
+        "abbreviation": "IL"
     },
     {
-        text: 'KY',
-        value: 'KY'
+        "name": "Indiana",
+        "abbreviation": "IN"
     },
     {
-        text: 'LA',
-        value: 'LA'
+        "name": "Iowa",
+        "abbreviation": "IA"
     },
     {
-        text: 'ME',
-        value: 'ME'
+        "name": "Kansas",
+        "abbreviation": "KS"
     },
     {
-        text: 'MD',
-        value: 'MD'
+        "name": "Kentucky",
+        "abbreviation": "KY"
     },
     {
-        text: 'MA',
-        value: 'MA'
+        "name": "Louisiana",
+        "abbreviation": "LA"
     },
     {
-        text: 'MI',
-        value: 'MI'
+        "name": "Maine",
+        "abbreviation": "ME"
     },
     {
-        text: 'MN',
-        value: 'MN'
+        "name": "Marshall Islands",
+        "abbreviation": "MH"
     },
     {
-        text: 'MS',
-        value: 'MS'
+        "name": "Maryland",
+        "abbreviation": "MD"
     },
     {
-        text: 'MO',
-        value: 'MO'
+        "name": "Massachusetts",
+        "abbreviation": "MA"
     },
     {
-        text: 'MT',
-        value: 'MT'
+        "name": "Michigan",
+        "abbreviation": "MI"
     },
     {
-        text: 'NE',
-        value: 'NE'
+        "name": "Minnesota",
+        "abbreviation": "MN"
     },
     {
-        text: 'NV',
-        value: 'NV'
+        "name": "Mississippi",
+        "abbreviation": "MS"
     },
     {
-        text: 'NH',
-        value: 'NH'
+        "name": "Missouri",
+        "abbreviation": "MO"
     },
     {
-        text: 'NJ',
-        value: 'NJ'
+        "name": "Montana",
+        "abbreviation": "MT"
     },
     {
-        text: 'NM',
-        value: 'NM'
+        "name": "Nebraska",
+        "abbreviation": "NE"
     },
     {
-        text: 'NY',
-        value: 'NY'
+        "name": "Nevada",
+        "abbreviation": "NV"
     },
     {
-        text: 'NC',
-        value: 'NC'
+        "name": "New Hampshire",
+        "abbreviation": "NH"
     },
     {
-        text: 'ND',
-        value: 'ND'
+        "name": "New Jersey",
+        "abbreviation": "NJ"
     },
     {
-        text: 'OH',
-        value: 'OH'
+        "name": "New Mexico",
+        "abbreviation": "NM"
     },
     {
-        text: 'OK',
-        value: 'OK'
+        "name": "New York",
+        "abbreviation": "NY"
     },
     {
-        text: 'OR',
-        value: 'OR'
+        "name": "North Carolina",
+        "abbreviation": "NC"
     },
     {
-        text: 'PA',
-        value: 'PA'
+        "name": "North Dakota",
+        "abbreviation": "ND"
     },
     {
-        text: 'RI',
-        value: 'RI'
+        "name": "Northern Mariana Islands",
+        "abbreviation": "MP"
     },
     {
-        text: 'SC',
-        value: 'SC'
+        "name": "Ohio",
+        "abbreviation": "OH"
     },
     {
-        text: 'SD',
-        value: 'SD'
+        "name": "Oklahoma",
+        "abbreviation": "OK"
     },
     {
-        text: 'TN',
-        value: 'TN'
+        "name": "Oregon",
+        "abbreviation": "OR"
     },
     {
-        text: 'TX',
-        value: 'TX'
+        "name": "Palau",
+        "abbreviation": "PW"
     },
     {
-        text: 'UT',
-        value: 'UT'
+        "name": "Pennsylvania",
+        "abbreviation": "PA"
     },
     {
-        text: 'VT',
-        value: 'VT'
+        "name": "Puerto Rico",
+        "abbreviation": "PR"
     },
     {
-        text: 'VA',
-        value: 'VA'
+        "name": "Rhode Island",
+        "abbreviation": "RI"
     },
     {
-        text: 'WA',
-        value: 'WA'
+        "name": "South Carolina",
+        "abbreviation": "SC"
     },
     {
-        text: 'WV',
-        value: 'WV'
+        "name": "South Dakota",
+        "abbreviation": "SD"
     },
     {
-        text: 'WI',
-        value: 'WI'
+        "name": "Tennessee",
+        "abbreviation": "TN"
     },
     {
-        text: 'WY',
-        value: 'WY'
+        "name": "Texas",
+        "abbreviation": "TX"
     },
+    {
+        "name": "Utah",
+        "abbreviation": "UT"
+    },
+    {
+        "name": "Vermont",
+        "abbreviation": "VT"
+    },
+    {
+        "name": "Virgin Islands",
+        "abbreviation": "VI"
+    },
+    {
+        "name": "Virginia",
+        "abbreviation": "VA"
+    },
+    {
+        "name": "Washington",
+        "abbreviation": "WA"
+    },
+    {
+        "name": "West Virginia",
+        "abbreviation": "WV"
+    },
+    {
+        "name": "Wisconsin",
+        "abbreviation": "WI"
+    },
+    {
+        "name": "Wyoming",
+        "abbreviation": "WY"
+    }
 ]
 
 stateOptionsList.add(new Option('Choose...', null, true))
 stateOptions.forEach(state =>
     stateOptionsList.add(
-        new Option(state.text, state.value, state.selected)
+        new Option(state.name, state.abbreviation, state.selected)
     )
 );
 

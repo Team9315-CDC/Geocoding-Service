@@ -43,7 +43,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="address1">Street Address 1</label>
-                    <input type="text" class="form-control" id="address1" aria-describedby="emailHelp" required>
+                    <input type="text" class="form-control" id="inputAddress1" aria-describedby="emailHelp" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -52,7 +52,7 @@
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="address2">Street Address 2</label>
-                    <input type="text" class="form-control" id="address2">
+                    <input type="text" class="form-control" id="inputAddress2">
                 </div>
             </div>
             <div class="form-row">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
+                    <select class="form-control" id="inputState" onmousedown="this.value='';" onchange="console.log(this.value)">
                     </select>
                 </div>
                 <div class="form-group col-md-2">
@@ -90,9 +90,9 @@
             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             <button type="button" class="btn btn-primary">Verify</button>
         </form>
-        <div id="result" style="margin-top:1em">
+        <!-- <div id="result" style="margin-top:1em">
             <p>Geocoded coordinates: -84.38044,33.969402</p>
-        </div>
+        </div> -->
         <!-- Modal -->
         <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -119,19 +119,21 @@
                 'use strict';
                 window.addEventListener('load', function() {
                     // hide results tab
-                    document.getElementById('result').style.display = 'none';
+                    // document.getElementById('result').style.display = 'none';
                     // Fetch all the forms we want to apply custom Bootstrap validation styles to
                     var forms = document.getElementsByClassName('needs-validation');
                     // Loop over them and prevent submission
                     var validation = Array.prototype.filter.call(forms, function(form) {
                         form.addEventListener('submit', function(event) {
+                            event.preventDefault();
+                            event.stopPropagation();
                             if (form.checkValidity() === false) {
                                 event.preventDefault();
                                 event.stopPropagation();
                             }
                             form.classList.add('was-validated');
-                            let resultDiv = document.getElementById('result');
-                            resultDiv.style.display = 'block';
+                            // let resultDiv = document.getElementById('result');
+                            // resultDiv.style.display = 'block';
                         }, false);
                     });
                 }, false);
