@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="inputState">State</label>
-                    <select class="form-control" id="inputState" onmousedown="this.value='';" onchange="console.log(this.value)">
+                    <select class="form-control" id="inputState" onmousedown="this.value='';">
                     </select>
                 </div>
                 <div class="form-group col-md-2">
@@ -87,6 +87,9 @@
                     </select>
                 </div>
             </div>
+
+            <div hidden id="spinner"></div>
+
             <button type="submit" class="btn btn-primary" id="submit">Submit</button>
             <button type="button" class="btn btn-primary">Verify</button>
         </form>

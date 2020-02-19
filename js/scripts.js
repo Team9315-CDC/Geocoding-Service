@@ -19,9 +19,12 @@ document.getElementById("batchImportLink").addEventListener("click", () => {
 });
 
 document.getElementById("submit").addEventListener("click", () => {
+    //spinner here
+    const spinner = document.getElementById("spinner");
+    spinner.removeAttribute("hidden");
     // fetch results from geocoder
     let jsonResponse;
-    console.log(document.getElementById('inputState').value)
+    // console.log(document.getElementById('inputState').value)
     let url = new URL('https://geocoding.geo.census.gov/geocoder/locations/address?'),
         addressparams = {
             street: document.getElementById("inputAddress1").value,
@@ -37,16 +40,18 @@ document.getElementById("submit").addEventListener("click", () => {
             return response.json();
         })
         .then((myJson) => {
+            spinner.setAttribute("hidden", "");
             // console.log(myJson);
             jsonResponse = myJson;
             //will need to do some checks here: 
             x = myJson.result.addressMatches[0].coordinates.x
             y = myJson.result.addressMatches[0].coordinates.y
-            let confirmation = "The address coordinates of (" + x.toString() + ", " + y.toString() + ") has been geocoded."
+            let confirmation = "The address coordinates of (lat: " + y.toString() + ", long: " + x.toString() + ") has been geocoded."
             $('#modal').find(".modal-body").text(confirmation)
             $('#modal').modal('show');
         })
         .catch(err => {
+            spinner.setAttribute("hidden", "");
             console.log(err);
             let confirmation = "Error please fix"
             $('#modal').find(".modal-body").text(confirmation)
@@ -324,7 +329,3 @@ stateOptions.forEach(state =>
         new Option(state.name, state.abbreviation, state.selected)
     )
 );
-
-
-
-console.log(stateOptionsList.length)
