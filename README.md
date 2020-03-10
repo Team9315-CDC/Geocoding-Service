@@ -3,6 +3,8 @@
 Git repository for Junior Design Project
 
 ## Building
+ Our project uses Gradle 6.2.2 as a build tool.
+ 
  
 Use
 
