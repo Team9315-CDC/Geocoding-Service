@@ -1,6 +1,7 @@
 package main.java;
 
 import main.java.geocoder.*;
+import java.util.Arrays;
 
 public class Server {
 
@@ -18,6 +19,9 @@ public class Server {
         }
         if (status) {
             gr.printResponse();
+            RequestParser rp = new RequestParser(gr.getResponse());
+            System.out.println("Address latitude and longitude: " + Arrays.toString(rp.getCoordinates()));
+
         } else {
             System.out.println("Something went wrong?");
         }

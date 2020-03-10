@@ -68,7 +68,7 @@ public class GeocodeRequest {
     }
 
     public void printResponse() {
-        System.out.println(response);
+        System.out.println("JSON Response received: " + response);
     }
 
     public String getResponse() {
