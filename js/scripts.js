@@ -40,15 +40,17 @@ document.getElementById("submit").addEventListener("click", () => {
             return response.json();
         })
         .then((myJson) => {
-            spinner.setAttribute("hidden", "");
-            // console.log(myJson);
-            jsonResponse = myJson;
-            //will need to do some checks here: 
-            x = myJson.result.addressMatches[0].coordinates.x
-            y = myJson.result.addressMatches[0].coordinates.y
-            let confirmation = "The address coordinates of (lat: " + y.toString() + ", long: " + x.toString() + ") has been geocoded."
-            $('#modal').find(".modal-body").text(confirmation)
-            $('#modal').modal('show');
+            // setTimeout(() => {
+                spinner.setAttribute("hidden", "");
+                // console.log(myJson);
+                jsonResponse = myJson;
+                //will need to do some checks here: 
+                x = myJson.result.addressMatches[0].coordinates.x
+                y = myJson.result.addressMatches[0].coordinates.y
+                let confirmation = "The address coordinates of (lat: " + y.toString() + ", long: " + x.toString() + ") has been geocoded."
+                $('#modal').find(".modal-body").text(confirmation)
+                $('#modal').modal('show');
+            // }, 2000)
         })
         .catch(err => {
             spinner.setAttribute("hidden", "");
