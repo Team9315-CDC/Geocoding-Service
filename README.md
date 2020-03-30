@@ -3,41 +3,29 @@
 Git repository for Junior Design Project
 
 ## Building
+ Our project uses Gradle 6.2.2 as a build tool.
+ 
+ 
+Use
 
-Make sure you create a build directory:
+`gradle build` 
 
-``mkdir bin``
-
-Or use the Makefile:
-
-``make init``
-
-You can then build the classes using `javac`:
-
-``javac -g -d bin/ -cp src/ src/main/java/<name of class>.java``
-
-or the Makefile
-
-``make``
-
-The default make will compile all the classes (if they were added to the make file).
-If you want to use the Makefile, be sure to add any new classes to the ALL macro, so
-they can be compiled.
+in the Geocoding-Service/ folder to build the source files located in `src/main/java`.
 
 ## Running
 
-Like `javac`, you need to specify the class path of the compiled files (using -cp):
+Use
+    
 
-``java -cp bin/ main.java.Server``
+`gradle run`
 
-Again, you can also use the Makefile
 
-``make run``
+This calls ``java main.Java.Server``
 
 ## Cleaning
 
-To clean up all the built files, simply delete everything in the `bin/` directory. Or use
+Use
 
-``make clean``
+``gradle clean``
 
-which will only remove all the .class files from `bin/`.
+which will remove the `build/` directory.

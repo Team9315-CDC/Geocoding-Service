@@ -8,10 +8,12 @@ import java.util.Scanner;
 public class GeocodeRequest {
 
     private static final String baseUrl = "https://geocoding.geo.census.gov/geocoder/locations/";
-    private static final String parameters = "&benchmark=Public_AR_Current&format=json";
+    // TODO: Figure out what benchmark is best to use; perhaps make a parameter for the class
+    private static final String parameters = "&benchmark=9&format=json";
     private StringBuilder urlBuilder = new StringBuilder(baseUrl);
+    private boolean builtAddress;
     private Address address;
-    private String response;
+    private String response = "";
 
     public GeocodeRequest(Address address, SearchType st) {
         this.address = address;
@@ -28,19 +30,23 @@ public class GeocodeRequest {
     }
 
     public void buildURL(SearchType st) {
-        switch (st) {
-            case ONE_LINE_ADDRESS:
-                urlBuilder.append("onelineaddress?address=");
-                break;
-            case FULL_ADDRESS:
-                urlBuilder.append("address?");
-                //TODO: add the other fields for a more complete address
-                break;
+        if (!builtAddress) {
+            switch (st) {
+                case ONE_LINE_ADDRESS:
+                    urlBuilder.append("onelineaddress?address=");
+                    urlBuilder.append(address.getAddress());
+                    break;
+                case FULL_ADDRESS:
+                    urlBuilder.append("address?street=");
+                    urlBuilder.append(address.getStreet());
+                    if (address.getCity() != null) urlBuilder.append("&city=").append(address.getCity());
+                    if (address.getState() != null) urlBuilder.append("&state=").append(address.getState());
+                    if (address.getZip() != null) urlBuilder.append("&zip=").append(address.getZip());
+                    break;
+            }
+            urlBuilder.append(parameters);
+            System.out.println("URL: " + urlBuilder.toString());
         }
-        urlBuilder.append(address.getAddress());
-        urlBuilder.append(parameters);
-
-        System.out.println("URL: " + urlBuilder.toString());
     }
 
     public boolean submitRequest() throws Exception {
@@ -56,15 +62,13 @@ public class GeocodeRequest {
             return false;
         }
         Scanner sc = new Scanner(request.openStream());
-        while (sc.hasNext()) {
-            response += sc.nextLine();
-        }
+        response = sc.nextLine();
         sc.close();
         return true;
     }
 
     public void printResponse() {
-        System.out.println(response);
+        System.out.println("JSON Response received: " + response);
     }
 
     public String getResponse() {

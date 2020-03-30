@@ -3,3 +3,9 @@ testing data/.DS_Store
 .idea
 *.class
 bin/
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
