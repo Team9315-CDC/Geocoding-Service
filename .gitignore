@@ -9,3 +9,25 @@ bin/
 
 # Ignore Gradle build output directory
 build
+.classpath
+.gradle/6.2.2/executionHistory/executionHistory.bin
+.gradle/6.2.2/executionHistory/executionHistory.lock
+.gradle/6.2.2/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/cache.properties
+.gradle/checksums/checksums.lock
+.project
+.settings/org.eclipse.buildship.core.prefs
+*.bin
+*.bin
+*.bin
+*.lock
+*.properties
+*.properties
+.gradle/6.2.2/executionHistory/executionHistory.bin
+.gradle/6.2.2/executionHistory/executionHistory.lock
+.gradle/6.2.2/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/cache.properties
+.gradle/checksums/checksums.lock
+*.properties
