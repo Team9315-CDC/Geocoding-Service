@@ -31,3 +31,5 @@ build
 .gradle/buildOutputCleanup/cache.properties
 .gradle/checksums/checksums.lock
 *.properties
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/cache.properties

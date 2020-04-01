@@ -10,12 +10,11 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
-import java.io.FileInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 
-// import java.lang.Runtime;
-//import java.lang.*;
 
 public class BatchCurl {
 
@@ -52,6 +51,10 @@ public class BatchCurl {
             try {
                 HttpEntity responseEntity = response.getEntity();
                 System.out.println(response.getStatusLine().getStatusCode());
+                if (responseEntity != null) {
+                    String responseBody = EntityUtils.toString(responseEntity);
+                    System.out.println(responseBody);
+                }
             } finally {
                 response.close();
             }
