@@ -14,7 +14,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class BatchCurl {
 
@@ -38,22 +39,40 @@ public class BatchCurl {
             builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
             File f = new File(fullpath);
             FileInputStream is = new FileInputStream(f);
-    //        AnalyzeInputStream(is);
+            // AnalyzeInputStream(is);
 
-            builder2.addBinaryBody(
-                    "addressFile",
-                    new FileInputStream(f),
-                    ContentType.APPLICATION_OCTET_STREAM,
+            builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
                     f.getName());
             HttpEntity multipart = builder2.build();
             request.setEntity(multipart);
             CloseableHttpResponse response = httpClient.execute(request);
+
             try {
                 HttpEntity responseEntity = response.getEntity();
                 System.out.println(response.getStatusLine().getStatusCode());
                 if (responseEntity != null) {
-                    String responseBody = EntityUtils.toString(responseEntity);
-                    System.out.println(responseBody);
+                    byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
+                    // System.out.println(responseBody);
+
+                    File file = new File("testing data/BatchImportResults.csv");
+
+                    try (FileOutputStream fop = new FileOutputStream(file)) {
+
+                        if (!file.exists()) {
+                            file.createNewFile();
+                        }
+
+                        System.out.println("Initializing write.....");
+
+                        fop.write(responseBody);
+                        fop.flush();
+                        fop.close();
+
+                        System.out.println("Finished writing CSV to file " + file.getPath());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             } finally {
                 response.close();
