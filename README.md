@@ -13,7 +13,7 @@ OS: Mac OS X 10.15.3 x86_64
 
 `./gradlew bootRun`
 
-Go to a ``localhost:8080/index.html``
+Go to ``localhost:8080/index.html``
 
 
 
