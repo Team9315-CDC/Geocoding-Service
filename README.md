@@ -1,31 +1,21 @@
 # Team 9315
 
-Git repository for Junior Design Project
+Git repository for Junior Design Project - Geocoding Service for CDC
 
-## Building
- Our project uses Gradle 6.2.2 as a build tool.
- 
- 
-Use
+## Running 
+Gradle version: 5.4.1 or 6.2.0 
 
-`gradle build` 
+JVM: 12.0.1 or 13.0.2
 
-in the Geocoding-Service/ folder to build the source files located in `src/main/java`.
+OS: Mac OS X 10.15.3 x86_64
 
-## Running
+`cd spring-boot`
 
-Use
-    
+`./gradlew bootRun`
 
-`gradle run`
+Go to a ``localhost:8080/index.html``
 
 
-This calls ``java main.Java.Server``
 
-## Cleaning
 
-Use
 
-``gradle clean``
-
-which will remove the `build/` directory.

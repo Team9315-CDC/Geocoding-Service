@@ -33,3 +33,13 @@ build
 *.properties
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
 .gradle/buildOutputCleanup/cache.properties
+spring-boot/gradle/wrapper/gradle-wrapper.jar
+spring-boot/gradlew
+spring-boot/gradlew.bat
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+spring-boot/gradle/wrapper/gradle-wrapper.jar
+spring-boot/gradlew
+spring-boot/gradlew.bat
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
