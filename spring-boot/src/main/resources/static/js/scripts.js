@@ -12,7 +12,11 @@ document.getElementById("submitBatch").addEventListener("click", (e) => {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Success:', data.result);
+            console.log(data);
+//            console.log(data.webkitRelativePath);
+            document.getElementById("geocodedFile").href = "localhost" + data
+            document.getElementById("geocodedFile").removeAttribute("hidden")
+//            console.log('Success:', data.result);
         })
         .catch((error) => {
             console.error('Error:', error);

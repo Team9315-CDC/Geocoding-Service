@@ -26,7 +26,58 @@ public class BatchCurl {
     public BatchCurl(String path) {
         this.path = path;
     }
+    public boolean batchRequest(File importFile) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        try {
 
+            HttpPost request = new HttpPost(batchURL);
+            MultipartEntityBuilder builder2 = MultipartEntityBuilder.create();
+            builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
+            File f = importFile;
+            FileInputStream is = new FileInputStream(f);
+            // AnalyzeInputStream(is);
+
+            builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
+                    f.getName());
+            HttpEntity multipart = builder2.build();
+            request.setEntity(multipart);
+            CloseableHttpResponse response = httpClient.execute(request);
+
+            try {
+                HttpEntity responseEntity = response.getEntity();
+                System.out.println(response.getStatusLine().getStatusCode());
+                if (responseEntity != null) {
+                    byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
+                    // System.out.println(responseBody);
+
+                    File file = new File("testing data/BatchImportResults.csv");
+
+                    try (FileOutputStream fop = new FileOutputStream(file)) {
+
+                        if (!file.exists()) {
+                            file.createNewFile();
+                        }
+
+                        System.out.println("Initializing write.....");
+
+                        fop.write(responseBody);
+                        fop.flush();
+                        fop.close();
+
+                        System.out.println("Finished writing CSV to file " + file.getPath());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } finally {
+                response.close();
+            }
+        } finally {
+            httpClient.close();
+        }
+        return true;
+    }
     public boolean batchRequest() throws Exception {
         System.out.println("Starting the CURL" + " for " + path);
         System.out.println(new File(".").exists());

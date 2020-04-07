@@ -43,3 +43,8 @@ spring-boot/gradlew
 spring-boot/gradlew.bat
 .gradle/buildOutputCleanup/cache.properties
 .gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/buildOutputCleanup/cache.properties
+spring-boot/build.gradle
