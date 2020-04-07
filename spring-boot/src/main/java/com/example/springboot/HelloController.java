@@ -25,6 +25,12 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.core.io.FileSystemResource;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class HelloController {
@@ -38,13 +44,15 @@ public class HelloController {
 		return convFile;
 	}
 
-//	@RequestMapping("/")
-//	public String index() {
-//		return "Greetings from Spring Boot!";
-//	}
+
+	@GetMapping("/test/temp.csv")
+	 void downloadCsv(HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; file=temp.csv");
+	}
 
 	@PostMapping("/test")
-	File test(@RequestParam("file") MultipartFile file) {
+	File test(@RequestParam("file") MultipartFile file) throws Exception{
 		File newFile = new File("./temp.csv");
 		// validate file
         if (file.isEmpty()) {
@@ -81,9 +89,6 @@ public class HelloController {
 
 							byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
 
-
-
-
 							try (FileOutputStream fop = new FileOutputStream(newFile)) {
 								if (!newFile.exists()) {
 									newFile.createNewFile();
@@ -94,6 +99,10 @@ public class HelloController {
 								fop.close();
 								System.out.println("Finished writing CSV to file " + newFile.getPath());
 //								return "{ \"result\": \"file of type " + file.getContentType() + " received and geocoded\"}";
+								ResponseEntity.ok()
+										.contentType(MediaType.parseMediaType("text/csv"))
+										.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\"" + newFile.getName() + "\"")
+										.body(new FileSystemResource(newFile));
 								return newFile;
 							} catch (IOException e) {
 								e.printStackTrace();
@@ -112,6 +121,7 @@ public class HelloController {
 			}
 		}
 		return newFile;
+
 	}
 
 }

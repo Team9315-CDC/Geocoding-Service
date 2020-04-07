@@ -6,17 +6,16 @@ document.getElementById("submitBatch").addEventListener("click", (e) => {
     data.append('file', file)
     console.log(data.get('file'));
     alert(file ? 'Uploaded file: ' + file.name : 'No files uploaded');
-    fetch('http://localhost:8080/test', {
+    fetch('http://localhost:8080/test/', {
         method: 'POST',
         body: data,
     })
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
-//            console.log(data.webkitRelativePath);
-            document.getElementById("geocodedFile").href = "localhost" + data
+            document.getElementById("geocodedFile").href = "http://localhost:8080/test/temp.csv"
             document.getElementById("geocodedFile").removeAttribute("hidden")
-//            console.log('Success:', data.result);
+            console.log('Success:', data.result);
         })
         .catch((error) => {
             console.error('Error:', error);
