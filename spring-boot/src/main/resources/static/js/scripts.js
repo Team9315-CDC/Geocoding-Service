@@ -10,16 +10,27 @@ document.getElementById("submitBatch").addEventListener("click", (e) => {
         method: 'POST',
         body: data,
     })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            document.getElementById("geocodedFile").href = "http://localhost:8080/test/temp.csv"
-            document.getElementById("geocodedFile").removeAttribute("hidden")
-            console.log('Success:', data.result);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    .then((data) => {
+        console.log(data);
+        var a = window.document.createElement('a');
+
+        a.href = window.URL.createObjectURL(new Blob([data], { type: 'application/octet-stream' }));
+        a.download = data.filename;
+
+        // Append anchor to body.
+        document.body.appendChild(a)
+        a.click();
+
+
+        // Remove anchor from body
+        document.body.removeChild(a)
+//        document.getElementById("geocodedFile").href = "http://localhost:8080/test/temp.csv"
+//        document.getElementById("geocodedFile").removeAttribute("hidden")
+//        console.log('Success:', data.result);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 });
 
 document.getElementById("addressFormLink").addEventListener("click", () => {

@@ -19,11 +19,16 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.commons.io.IOUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -51,11 +56,15 @@ public class HelloController {
 		response.setHeader("Content-Disposition", "attachment; file=temp.csv");
 	}
 
-	@PostMapping("/test")
-	File test(@RequestParam("file") MultipartFile file) throws Exception{
-		File newFile = new File("./temp.csv");
+	@RequestMapping(value="/test")
+	void test(@RequestParam("file") MultipartFile file, HttpServletResponse servletResponse) throws Exception{
 		// validate file
-        if (file.isEmpty()) {
+		ResponseEntity<byte[]> filebyte;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		HttpHeaders httpHeaders = new HttpHeaders();
+		filebyte = new ResponseEntity<byte[]>(bos.toByteArray(), httpHeaders, HttpStatus.CREATED);
+
+		if (file.isEmpty()) {
             System.out.println("Please select a CSV file to upload.");
         } else {
 			try {
@@ -66,7 +75,6 @@ public class HelloController {
 //				Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
 				CloseableHttpClient httpClient = HttpClients.createDefault();
 				try {
-
 					HttpPost request = new HttpPost(batchURL);
 					MultipartEntityBuilder builder2 = MultipartEntityBuilder.create();
 					builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
@@ -88,7 +96,9 @@ public class HelloController {
 //							System.out.println(strResponse);
 
 							byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
-
+							servletResponse.setContentType("application/octet-stream");
+							servletResponse.setHeader("Content-Disposition", "attachment; file=temp.csv");
+							File newFile = new File("./temp.csv");
 							try (FileOutputStream fop = new FileOutputStream(newFile)) {
 								if (!newFile.exists()) {
 									newFile.createNewFile();
@@ -99,16 +109,61 @@ public class HelloController {
 								fop.close();
 								System.out.println("Finished writing CSV to file " + newFile.getPath());
 //								return "{ \"result\": \"file of type " + file.getContentType() + " received and geocoded\"}";
-								ResponseEntity.ok()
-										.contentType(MediaType.parseMediaType("text/csv"))
-										.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\"" + newFile.getName() + "\"")
-										.body(new FileSystemResource(newFile));
-								return newFile;
+//								ResponseEntity.ok()
+//										.contentType(MediaType.parseMediaType("text/csv"))
+//										.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\"" + newFile.getName() + "\"")
+//										.body(new FileSystemResource(newFile));
+								System.out.println("Downloading.....");
+//								InputStream istream = new FileInputStream(newFile);
+//								System.out.println(istream.toString());
+//								org.apache.commons.io.IOUtils.copy(istream, servletResponse.getOutputStream());
+//								servletResponse.flushBuffer();
+
+								System.out.println(newFile.getName());
+
+
+								FileInputStream fileInputStream = new FileInputStream(newFile);
+								org.apache.commons.io.IOUtils.copy(fileInputStream, servletResponse.getOutputStream());
+								fileInputStream.close();
+								servletResponse.flushBuffer();
+
+
 							} catch (IOException e) {
 								e.printStackTrace();
-//								System.out.println("exception occured: " + e.toString());
 
 							}
+
+
+//							File tempFile = File.createTempFile("tempGeocode", ".csv");
+//							FileOutputStream fop = new FileOutputStream(tempFile);
+//							fop.write(responseBody);
+//							fop.flush();
+//							fop.close();
+//
+//							FileInputStream fis = new FileInputStream(tempFile);
+////							ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//							byte[] b = new byte[1024];
+//							int n;
+//							while ((n = fis.read(b)) != -1)
+//							{
+//								bos.write(b, 0, n);
+//							}
+//							fis.close();
+//							bos.close();
+////							HttpHeaders httpHeaders = new HttpHeaders();
+//							String fileName = new String("Testing.csv".getBytes("UTF-8"), "iso-8859-1");
+//							httpHeaders.setContentDispositionFormData("attachment", fileName);
+//							httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//							filebyte = new ResponseEntity<byte[]>(bos.toByteArray(), httpHeaders, HttpStatus.CREATED);
+//
+//							System.out.println("FileByte Completed.");
+
+//
+//							System.out.println("Downloading File...");
+//							org.apache.commons.io.IOUtils.copy(istream, servletResponse.getOutputStream());
+//							servletResponse.flushBuffer();
+//							servletResponse.setContentType("text/csv");
+//							servletResponse.setHeader("Content-Disposition", "attachment; file=\"" + responseBody + "\"");
 						}
 					} finally {
 						response.close();
@@ -120,8 +175,9 @@ public class HelloController {
 				System.out.println("exception occured: " + e.toString());
 			}
 		}
-		return newFile;
-
+//        		File newFile = new File("./temp.csv");
+//		return newFile;
+//		return filebyte;
 	}
 
 }
