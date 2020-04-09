@@ -33,7 +33,6 @@ import org.springframework.core.io.FileSystemResource;
 import javax.servlet.http.HttpServletResponse;
 
 import java.nio.file.Path;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.Resource;
 import java.net.URL;
@@ -57,7 +56,7 @@ public class HelloController {
 	}
 
 	@GetMapping("/downloadFile")
-	public ResponseEntity<Resource> downloadFile(HttpServletRequest request) {
+	public ResponseEntity<Resource> downloadFile() {
 		Resource resource = null;
 		// replace with filename of whatever file to download - very hardcoded rn
 		String fileName = "js/scripts.js";
