@@ -32,6 +32,12 @@ import org.springframework.http.MediaType;
 import org.springframework.core.io.FileSystemResource;
 import javax.servlet.http.HttpServletResponse;
 
+import java.nio.file.Path;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.Resource;
+import java.net.URL;
+
 @RestController
 public class HelloController {
 
@@ -44,26 +50,48 @@ public class HelloController {
 		return convFile;
 	}
 
-
 	@GetMapping("/test/temp.csv")
-	 void downloadCsv(HttpServletResponse response) throws IOException {
+	void downloadCsv(HttpServletResponse response) throws IOException {
 		response.setContentType("text/csv");
 		response.setHeader("Content-Disposition", "attachment; file=temp.csv");
 	}
 
+	@GetMapping("/downloadFile")
+	public ResponseEntity<Resource> downloadFile(HttpServletRequest request) {
+		Resource resource = null;
+		// replace with filename of whatever file to download - very hardcoded rn
+		String fileName = "js/scripts.js";
+		try {
+			resource = new UrlResource(new URL("http://localhost:8080/" + fileName));
+			System.out.println(resource.getURL());
+			if (!resource.exists()) {
+				System.out.println("File not found " + fileName);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		String contentType = "application/octet-stream";
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
+
 	@PostMapping("/test")
-	File test(@RequestParam("file") MultipartFile file) throws Exception{
+	File test(@RequestParam("file") MultipartFile file) throws Exception {
 		File newFile = new File("./temp.csv");
 		// validate file
-        if (file.isEmpty()) {
-            System.out.println("Please select a CSV file to upload.");
-        } else {
+		if (file.isEmpty()) {
+			System.out.println("Please select a CSV file to upload.");
+		} else {
 			try {
 				System.out.println(file.getContentType());
 				String benchmark = "Public_AR_Current";
 				String batchURL = "https://geocoding.geo.census.gov/geocoder/locations/addressbatch";
 				// TODO: stream csv file to BatchCurl.java for batch processing
-//				Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+				// Reader reader = new BufferedReader(new
+				// InputStreamReader(file.getInputStream()));
 				CloseableHttpClient httpClient = HttpClients.createDefault();
 				try {
 
@@ -84,8 +112,8 @@ public class HelloController {
 						HttpEntity responseEntity = response.getEntity();
 						System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
 						if (responseEntity != null) {
-//							String strResponse = EntityUtils.toString(responseEntity);
-//							System.out.println(strResponse);
+							// String strResponse = EntityUtils.toString(responseEntity);
+							// System.out.println(strResponse);
 
 							byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
 
@@ -98,15 +126,16 @@ public class HelloController {
 								fop.flush();
 								fop.close();
 								System.out.println("Finished writing CSV to file " + newFile.getPath());
-//								return "{ \"result\": \"file of type " + file.getContentType() + " received and geocoded\"}";
-								ResponseEntity.ok()
-										.contentType(MediaType.parseMediaType("text/csv"))
-										.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; file=\"" + newFile.getName() + "\"")
+								// return "{ \"result\": \"file of type " + file.getContentType() + " received
+								// and geocoded\"}";
+								ResponseEntity.ok().contentType(MediaType.parseMediaType("text/csv"))
+										.header(HttpHeaders.CONTENT_DISPOSITION,
+												"attachment; file=\"" + newFile.getName() + "\"")
 										.body(new FileSystemResource(newFile));
 								return newFile;
 							} catch (IOException e) {
 								e.printStackTrace();
-//								System.out.println("exception occured: " + e.toString());
+								// System.out.println("exception occured: " + e.toString());
 
 							}
 						}
