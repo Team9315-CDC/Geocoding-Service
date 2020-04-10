@@ -5,11 +5,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.FileSystemResource;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -20,21 +31,10 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaType;
-import org.springframework.core.io.FileSystemResource;
 import javax.servlet.http.HttpServletResponse;
 
 import java.nio.file.Path;
-import org.springframework.core.io.UrlResource;
-import org.springframework.core.io.Resource;
+
 import java.net.URL;
 
 @RestController
@@ -58,7 +58,8 @@ public class HelloController {
 	@GetMapping("/downloadFile")
 	public ResponseEntity<Resource> downloadFile() {
 		Resource resource = null;
-		// replace with filename of whatever file to download - very hardcoded rn
+
+		// TODO: replace with filename of whatever file to download - very hardcoded rn
 		String fileName = "js/scripts.js";
 		try {
 			resource = new UrlResource(new URL("http://localhost:8080/" + fileName));
@@ -89,8 +90,6 @@ public class HelloController {
 				String benchmark = "Public_AR_Current";
 				String batchURL = "https://geocoding.geo.census.gov/geocoder/locations/addressbatch";
 				// TODO: stream csv file to BatchCurl.java for batch processing
-				// Reader reader = new BufferedReader(new
-				// InputStreamReader(file.getInputStream()));
 				CloseableHttpClient httpClient = HttpClients.createDefault();
 				try {
 
@@ -99,7 +98,6 @@ public class HelloController {
 					builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
 					File f = convert(file);
 					FileInputStream is = new FileInputStream(f);
-					// AnalyzeInputStream(is);
 
 					builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
 							f.getName());
@@ -111,8 +109,6 @@ public class HelloController {
 						HttpEntity responseEntity = response.getEntity();
 						System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
 						if (responseEntity != null) {
-							// String strResponse = EntityUtils.toString(responseEntity);
-							// System.out.println(strResponse);
 
 							byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
 
@@ -125,8 +121,7 @@ public class HelloController {
 								fop.flush();
 								fop.close();
 								System.out.println("Finished writing CSV to file " + newFile.getPath());
-								// return "{ \"result\": \"file of type " + file.getContentType() + " received
-								// and geocoded\"}";
+
 								ResponseEntity.ok().contentType(MediaType.parseMediaType("text/csv"))
 										.header(HttpHeaders.CONTENT_DISPOSITION,
 												"attachment; file=\"" + newFile.getName() + "\"")
@@ -134,8 +129,6 @@ public class HelloController {
 								return newFile;
 							} catch (IOException e) {
 								e.printStackTrace();
-								// System.out.println("exception occured: " + e.toString());
-
 							}
 						}
 					} finally {

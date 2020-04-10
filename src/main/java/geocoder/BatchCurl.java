@@ -35,7 +35,6 @@ public class BatchCurl {
             builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
             File f = importFile;
             FileInputStream is = new FileInputStream(f);
-            // AnalyzeInputStream(is);
 
             builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
                     f.getName());
@@ -48,7 +47,6 @@ public class BatchCurl {
                 System.out.println(response.getStatusLine().getStatusCode());
                 if (responseEntity != null) {
                     byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
-                    // System.out.println(responseBody);
 
                     File file = new File("testing data/BatchImportResults.csv");
 
@@ -90,7 +88,6 @@ public class BatchCurl {
             builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
             File f = new File(fullpath);
             FileInputStream is = new FileInputStream(f);
-            // AnalyzeInputStream(is);
 
             builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
                     f.getName());
