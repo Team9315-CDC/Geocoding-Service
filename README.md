@@ -30,7 +30,7 @@ Use
 `gradle build` 
 in the Geocoding-Service/ folder to build the source files located in `src/main/java`.  
 
-#### Runnig with Gradle 
+#### Running with Gradle 
 Use   
 `gradle run`
 This calls ``java main.Java.Server``
@@ -39,6 +39,15 @@ This calls ``java main.Java.Server``
 Use
 ``gradle clean``
 which will remove the `build/` directory.
+
+
+## Release Notes 
+### New Features 
+1. Spring Boot Application with HTML/JavaScript Front End prototype
+2. Batch Geocoding of addresses 
+3. Single Address Geocoding
+
+### Notable Bugs and Defects
 
 
 
