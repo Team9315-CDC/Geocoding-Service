@@ -16,15 +16,21 @@ Tested with the following versions:
 2. JVM: 12.0.1 or 13.0.2
 3. OS: Mac OS X 10.15.3 x86_64
 
-### SpringBoot
+### Spring Boot
+Spring Boot will handle dependencies on Run using Gradle 
 To Run Spring Boot Application with Front End:
 Note: no building is required.
 1. From Project Root in Terminal/Command Prompt: `cd spring-boot`
-2. `./gradlew bootRun` Note: Gradle getting stuck at 75% is normal 
-3. Go to ``localhost:8080/index.html``
+2. `./gradlew bootRun` 
+3. Go to ``localhost:8080/index.html`` in browser. 
+
+#### Troubleshooting Spring Boot
+1. `./gradlew bootRun` may get stuck at 75%. This is normal behavior. 
+2. If the above command fails, try utilizing `./mvnw spring-boot:run`. Note Maven Version: 4.0.0 is required. 
 
 ### Gradle 
 #### Building with Gradle 
+Gradle will handle dependencies on Build 
 To Build Gradle Example (Terminal/Command Prompt only): 
 Use
 `gradle build` 
