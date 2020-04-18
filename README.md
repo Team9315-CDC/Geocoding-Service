@@ -7,7 +7,7 @@ Git repository for Junior Design Project - Geocoding Service for CDC
 2. JVM: 12.0.1 or 13.0.2
   
 ## Download
-	`git clone https://github.com/Team9315-CDC/Geocoding-Service.git`
+`git clone https://github.com/Team9315-CDC/Geocoding-Service.git`
 
 ## Build and Running 
 
