@@ -18,9 +18,10 @@ Tested with the following versions:
 
 ### SpringBoot
 To Run Spring Boot Application with Front End:
-Note: no building is required
-1. From Project Root: `cd spring-boot`
+Note: no building is required.
+1. From Project Root in Terminal/Command Prompt: `cd spring-boot`
 2. `./gradlew bootRun`
+2a. Gradle getting stuck at 75% is normal 
 3. Go to ``localhost:8080/index.html``
 
 ### Gradle 
