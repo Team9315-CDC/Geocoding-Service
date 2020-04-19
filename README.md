@@ -48,7 +48,7 @@ Use
 which will remove the `build/` directory.
 
 
-## Release Notes 
+## Release Notes - Version 1.0.0
 ### New Features 
 1. Spring Boot Application with HTML/JavaScript Front End prototype
 2. Batch Geocoding of addresses 
