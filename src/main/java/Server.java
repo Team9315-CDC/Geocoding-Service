@@ -1,7 +1,9 @@
 package main.java;
 
-import main.java.geocoder.*;
-import java.util.Arrays;
+import java.io.IOException;
+
+import main.java.geocoder.SQLQuery;
+import java.sql.SQLException;
 
 public class Server {
 
@@ -9,7 +11,7 @@ public class Server {
     public static void main(String[] args) {
 
 //        Address sample = new Address("4600+Silver+Hill+Rd%2C+Suitland%2C+MD+20746");
-        Address sample = new Address("4600+Silver+Hill+Rd", "Suitland", "MD", "20746");
+        /**Address sample = new Address("4600+Silver+Hill+Rd", "Suitland", "MD", "20746");
         GeocodeRequest gr = new GeocodeRequest(sample);
         boolean status = false;
         try {
@@ -24,7 +26,17 @@ public class Server {
 
         } else {
             System.out.println("Something went wrong?");
+        }*/
+        SQLQuery batchQuery = new SQLQuery();
+        try {
+            batchQuery.autoConnect("localhost", "NBS_ODSE", "SA", "Dalllas20$91");
+            //batchQuery.serverConnect("NBS_ODSE");
+            batchQuery.startNewBatchQuery();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
+
+
     }
 
 }

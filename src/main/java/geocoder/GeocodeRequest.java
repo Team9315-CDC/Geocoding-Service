@@ -11,8 +11,8 @@ public class GeocodeRequest {
     // TODO: Figure out what benchmark is best to use; perhaps make a parameter for the class
     private static final String parameters = "&benchmark=9&format=json";
     private StringBuilder urlBuilder = new StringBuilder(baseUrl);
-    private boolean builtAddress;
-    private Address address;
+    private boolean builtAddress = false;
+    private Address address = null;
     private String response = "";
 
     public GeocodeRequest(Address address, SearchType st) {
@@ -29,7 +29,7 @@ public class GeocodeRequest {
         }
     }
 
-    public void buildURL(SearchType st) {
+    private void buildURL(SearchType st) {
         if (!builtAddress) {
             switch (st) {
                 case ONE_LINE_ADDRESS:
@@ -46,12 +46,11 @@ public class GeocodeRequest {
             }
             urlBuilder.append(parameters);
             System.out.println("URL: " + urlBuilder.toString());
+            builtAddress = true;
         }
     }
 
     public boolean submitRequest() throws Exception {
-        // TODO: Add error handling
-
         URL request = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection)request.openConnection();
         conn.setRequestMethod("GET");

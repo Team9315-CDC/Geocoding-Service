@@ -23,5 +23,18 @@ repositories {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // If using a MS SQL server
+    // https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
+    compile group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.2.0.jre8'
+
+    // If using a MySQL server
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    // compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
+
+}
+
+run {
+    standardInput = System.in
 }
 
