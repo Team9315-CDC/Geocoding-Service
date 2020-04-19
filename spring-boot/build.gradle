@@ -1,0 +1,35 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// tag::actuator[]
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// end::actuator[]
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// tag::tests[]
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	// end::tests[]
+	implementation 'com.google.code.gson:gson:2.8.6'
+	compile 'org.apache.httpcomponents:httpclient:4.5.12'
+	compile 'org.apache.httpcomponents:httpcore:4.4.1'
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+	compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.1'
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -1,7 +1,8 @@
 package main.java;
 
+import main.java.geocoder.*;
+import java.util.Arrays;
 import java.io.IOException;
-
 import main.java.geocoder.SQLQuery;
 import java.sql.SQLException;
 
@@ -36,6 +37,15 @@ public class Server {
             e.printStackTrace();
         }
 
+        BatchCurl test = new BatchCurl("LocalTestInstance_v3.csv");
+        boolean batchStatus = false;
+        try {
+            batchStatus = test.batchRequest();
+        } catch (Exception e) {
+            System.out.println("Batch Import Error");
+            System.out.println(e.toString());
+
+        }
 
     }
 
