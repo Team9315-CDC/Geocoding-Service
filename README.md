@@ -4,7 +4,7 @@ Git repository for Junior Design Project - Geocoding Service for CDC
 
 ## Pre-requisites
 1. Gradle version: 5.4.x or 6.2.x 
-2. JVM: 12.0.1 or 13.0.2
+2. JVM: 10.0.x or 12.0.x or 13.0.x
   
 ## Download
 `git clone https://github.com/Team9315-CDC/Geocoding-Service.git`
@@ -12,9 +12,9 @@ Git repository for Junior Design Project - Geocoding Service for CDC
 ## Build and Running 
 
 Tested with the following versions: 
-1. Gradle version: 5.4.1 or 6.2.0 
-2. JVM: 12.0.1 or 13.0.2
-3. OS: Mac OS X 10.15.3 x86_64
+1. Gradle version: 5.4.x or 6.2.x 
+2. JVM: 10.0.x or 12.0.x or 13.0.x
+3. OS: Mac OSX 10.15.3 x86_64
 
 ### Spring Boot
 Spring Boot will handle dependencies on Run using Gradle 
@@ -25,8 +25,9 @@ Note: no building is required.
 3. Go to ``localhost:8080/index.html`` in browser. 
 
 #### Troubleshooting Spring Boot
-1. `./gradlew bootRun` may get stuck at 75%. This is normal behavior. 
+1. `./gradlew bootRun` may get stuck at 75%. This is normal behavior. Just be on the lookout for "App Started". 
 2. If the above command fails, try utilizing `./mvnw spring-boot:run`. Note Maven Version: 4.0.0 is required. 
+3. To Run Single Address Geocoding, CORS must be utilized, and Access-Control-Allow-Origin must be allowed. 
 
 ### Gradle 
 #### Building with Gradle 
@@ -54,6 +55,7 @@ which will remove the `build/` directory.
 3. Single Address Geocoding
 
 ### Notable Bugs and Defects
+1. To Run Single Address Geocoding, CORS must be utilized, and Access-Control-Allow-Origin must be allowed. 
 
 
 
