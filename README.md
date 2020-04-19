@@ -2,6 +2,15 @@
 
 Git repository for Junior Design Project - Geocoding Service for CDC
 
+## Release Notes - Version 1.0.0
+### New Features 
+1. Spring Boot Application with HTML/JavaScript Front End prototype
+2. Batch Geocoding of addresses 
+3. Single Address Geocoding
+
+### Notable Bugs and Defects
+1. To Run Single Address Geocoding, CORS must be utilized, and Access-Control-Allow-Origin must be allowed. 
+
 ## Pre-requisites
 1. Gradle version: 5.4.x or 6.2.x 
 2. JVM: 10.0.x or 12.0.x or 13.0.x
@@ -46,17 +55,3 @@ This calls ``java main.Java.Server``
 Use
 ``gradle clean``
 which will remove the `build/` directory.
-
-
-## Release Notes - Version 1.0.0
-### New Features 
-1. Spring Boot Application with HTML/JavaScript Front End prototype
-2. Batch Geocoding of addresses 
-3. Single Address Geocoding
-
-### Notable Bugs and Defects
-1. To Run Single Address Geocoding, CORS must be utilized, and Access-Control-Allow-Origin must be allowed. 
-
-
-
-
