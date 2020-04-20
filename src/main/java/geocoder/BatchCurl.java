@@ -22,10 +22,12 @@ public class BatchCurl {
     public String path;
     public String benchmark = "Public_AR_Current";
     public String batchURL = "https://geocoding.geo.census.gov/geocoder/locations/addressbatch";
+    private File batchResults;
 
     public BatchCurl(String path) {
         this.path = path;
     }
+
     public boolean batchRequest(File importFile) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
@@ -34,7 +36,6 @@ public class BatchCurl {
             MultipartEntityBuilder builder2 = MultipartEntityBuilder.create();
             builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
             File f = importFile;
-            FileInputStream is = new FileInputStream(f);
 
             builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
                     f.getName());
@@ -44,17 +45,13 @@ public class BatchCurl {
 
             try {
                 HttpEntity responseEntity = response.getEntity();
-                System.out.println(response.getStatusLine().getStatusCode());
+                //System.out.println(response.getStatusLine().getStatusCode());
                 if (responseEntity != null) {
                     byte[] responseBody = EntityUtils.toString(responseEntity).getBytes();
 
-                    File file = new File("testing data/BatchImportResults.csv");
+                    batchResults = File.createTempFile("geocoded_results_",".csv");
 
-                    try (FileOutputStream fop = new FileOutputStream(file)) {
-
-                        if (!file.exists()) {
-                            file.createNewFile();
-                        }
+                    try (FileOutputStream fop = new FileOutputStream(batchResults)) {
 
                         System.out.println("Initializing write.....");
 
@@ -62,7 +59,7 @@ public class BatchCurl {
                         fop.flush();
                         fop.close();
 
-                        System.out.println("Finished writing CSV to file " + file.getPath());
+                        System.out.println("Finished writing CSV to file " + batchResults.getPath());
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -76,6 +73,7 @@ public class BatchCurl {
         }
         return true;
     }
+
     public boolean batchRequest() throws Exception {
         System.out.println("Starting the CURL" + " for " + path);
         System.out.println(new File(".").exists());
@@ -87,7 +85,6 @@ public class BatchCurl {
             MultipartEntityBuilder builder2 = MultipartEntityBuilder.create();
             builder2.addTextBody("benchmark", benchmark, ContentType.TEXT_PLAIN);
             File f = new File(fullpath);
-            FileInputStream is = new FileInputStream(f);
 
             builder2.addBinaryBody("addressFile", new FileInputStream(f), ContentType.APPLICATION_OCTET_STREAM,
                     f.getName());
@@ -129,5 +126,9 @@ public class BatchCurl {
             httpClient.close();
         }
         return true;
+    }
+
+    public File getBatchResults() {
+        return batchResults;
     }
 }
