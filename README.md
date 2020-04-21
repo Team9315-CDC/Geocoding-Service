@@ -77,7 +77,8 @@ Use
 `gradle build` 
 in the Geocoding-Service/ folder to build the source files located in `src/main/java`.
 
-Currently Gradle is configured to use the JDBC driver for an MS SQL server. This can be
+Currently Gradle is configured to use the JDBC driver for an MS SQL server. This must be
+changed if you use a different kind of SQL server, but it can be
 changed easily by simply updating the maven repository in the dependency section of
 `build.gradle`. (Note that if you change the JDBC driver to work with your SQL server,
 you may need to update the flavor of the SQL statements in `SQLQuery`)
