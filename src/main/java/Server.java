@@ -43,7 +43,7 @@ public class Server {
         try {
             // Update server credentials if you want to use autoConnect
             batchQuery.autoConnect("localhost", "NBS_ODSE", "SA", "Admin1234!?");
-            //batchQuery.serverConnect("NBS_ODSE");
+            //batchQuery.serverConnect();
             int currCount, totalCount = 0;
             do {
                 // Max size of a batch query is 10000

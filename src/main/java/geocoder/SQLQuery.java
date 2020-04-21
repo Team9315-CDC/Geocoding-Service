@@ -13,6 +13,10 @@ public class SQLQuery {
     public SQLQuery() {
     }
 
+    /**
+     * Connects to an SQL database using user supplied credentials
+     * @throws SQLException
+     */
     public void serverConnect() throws SQLException {
         Scanner usrIn = new Scanner(System.in);
         // TODO: FIX THIS
@@ -30,6 +34,11 @@ public class SQLQuery {
         usrIn.close();
     }
 
+    /**
+     * Connects to an SQL database without prompting the user for credentials
+     * Must be recompiled to work
+     * @throws SQLException
+     */
     public void autoConnect(String serverName, String databaseName, String username, String password) throws SQLException {
         String connectionUrl =
                 "jdbc:sqlserver://" + serverName + ";"
@@ -41,6 +50,11 @@ public class SQLQuery {
         serverConn = DriverManager.getConnection(connectionUrl);
     }
 
+    /**
+     * Start a new batch query of the Postal_locator table and store results in the Geocoding_Results table
+     * @return the number of results read from the Postal_locator table
+     * @throws Exception
+     */
     public int startNewBatchQuery() throws Exception {
         if (!serverConn.isValid(30)) {
             throw new ConnectionFailureException("Lost connection to the SQL server!");
@@ -123,6 +137,9 @@ public class SQLQuery {
         return ids;
     }
 
+    /*
+        This CSV is the one to be sent to the geocoder API to be geocoded
+     */
     private File generateCSV(ResultSet results, Map<Long, Integer> idPairings) throws IOException, SQLException {
         File csv = File.createTempFile("geocoding_",".csv");
         csv.deleteOnExit();
@@ -151,6 +168,11 @@ public class SQLQuery {
         return csv;
     }
 
+    /*
+        This parses the CSV received from the geocoder API. The resulting String array has the following entires:
+        temp_id, input_street_addr, input_city, input_state, input_zip_code, match, exact_match, output_street_addr,
+        output_city, output_state, output_zip, longitude, latitude, tigerLineID, tigerLineSide
+     */
     private Map<Integer, String[]> parseCSV(File geoResults) throws IOException {
         BufferedReader csvReader = new BufferedReader(new FileReader(geoResults));
         Map<Integer, String[]> csvEntries = new HashMap<>();
@@ -168,19 +190,20 @@ public class SQLQuery {
         return csvEntries;
     }
 
-    /* first 6 values are non-nullable
-    geocoding_result_uid ==> 1
-    postal_locator_uid ==> 2
-    add_time ==> 3
-    last_chg_time ==> 4
-    result_type ==> 5
-    num_matches ==> 6
-    street_addr1 ==> 7
-    city ==> 8
-    state ==> 9
-    zip_cd ==> 10
-    longitude ==> 11
-    latitude ==> 12
+    /*
+        Updates the Geocoding_Results table with successful matches. Below is the list of fields set and the parameter order
+        geocoding_result_uid ==> 1
+        postal_locator_uid ==> 2
+        add_time ==> 3
+        last_chg_time ==> 4
+        result_type ==> 5
+        num_matches ==> 6
+        street_addr1 ==> 7
+        city ==> 8
+        state ==> 9
+        zip_cd ==> 10
+        longitude ==> 11
+        latitude ==> 12
      */
     private void updateGeocodedResult(PreparedStatement sqlStatement, long id, String[] content, String resultType) throws SQLException {
         sqlStatement.setLong(1, id);
