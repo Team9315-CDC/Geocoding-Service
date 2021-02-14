@@ -18,7 +18,11 @@ public class RequestParser {
     public String getRawJSON() {
         return jsonString;
     }
-
+    
+    /*
+    addressMatchesArray is the array of matches an address input can be associated to. 
+    This can be a useful array to have if you want all the addresses that were matched with the input. 
+    */
     public double getLat() {
         JsonArray addressMatchesArray = jsonObject.getAsJsonObject("result").getAsJsonArray("addressMatches");
         JsonObject firstMatchedAddress = addressMatchesArray.get(0).getAsJsonObject();
